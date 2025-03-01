@@ -1,7 +1,9 @@
 import CustomError from "../helpers/error/CustomError.js";
 
 const customErrorHandler = (err, req, res, next) => {
-    let customError = err;
+  let customError = err;
+  
+  console.log(customError.message, customError.status);
     
     if (err.name === "SyntaxError") {
       customError = new CustomError("Unexpected Syntax", 400);

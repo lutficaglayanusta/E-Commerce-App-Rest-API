@@ -2,6 +2,7 @@ import pool from "../helpers/database/connectDatabase.js";
 import asyncErrorWrapper from "express-async-handler";
 import bcrypt from "bcrypt"
 import CustomError from "../helpers/error/CustomError.js";
+import { sendJwtClient } from "../helpers/authorization/senJwtClient.js";
 
 export const userRegister = asyncErrorWrapper(async (req, res,next) => {
   const { name, email, password } = req.body;
@@ -11,7 +12,7 @@ export const userRegister = asyncErrorWrapper(async (req, res,next) => {
   ]);
 
   if (checkResult.rows.length > 0) {
-    return next(new CustomError("User already exit", 400));
+    return next(new CustomError("User already exists", 400));
   } else {
     bcrypt.hash(password, 10, async (err, hash) => {
       if (err) {
@@ -22,12 +23,7 @@ export const userRegister = asyncErrorWrapper(async (req, res,next) => {
           [name, email, hash]
         );
 
-        users = users.rows[0];
-
-        res.status(200).json({
-          success: "true",
-          users,
-        });
+        sendJwtClient(users.rows[0], res);
       }
     });
   }
