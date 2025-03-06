@@ -2,7 +2,7 @@ import pool from "../helpers/database/connectDatabase.js";
 import asyncErrorWrapper from "express-async-handler";
 import bcrypt from "bcrypt"
 import CustomError from "../helpers/error/CustomError.js";
-import { sendJwtClient } from "../helpers/authorization/senJwtClient.js";
+import { sendJwtClient } from "../helpers/authorization/tokenHelpers.js";
 
 export const userRegister = asyncErrorWrapper(async (req, res,next) => {
   const { name, email, password } = req.body;
@@ -28,3 +28,12 @@ export const userRegister = asyncErrorWrapper(async (req, res,next) => {
     });
   }
 });
+export const getUser = asyncErrorWrapper(async (req, res, next) => { 
+  res.json({
+    success: true,
+    data: {
+      id: req.user.id,
+      name: req.user.name,
+    },
+  });
+})
