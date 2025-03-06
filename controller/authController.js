@@ -28,6 +28,35 @@ export const userRegister = asyncErrorWrapper(async (req, res,next) => {
     });
   }
 });
+export const logIn = asyncErrorWrapper(async (req, res, next) => { 
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return next(new CustomError("Please check your inputs", 400));
+  }
+  const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+
+  if (user.rows.length === 0) {
+    return next(new CustomError("There is no exits user", 400));
+  }
+  const passwordControl = bcrypt.compareSync(password, user.rows[0].password);
+  
+  if (!passwordControl) {
+    return next(new CustomError("Your password is not correct", 400));
+  }
+  sendJwtClient(user.rows[0], res);
+})
+
+export const logOut = asyncErrorWrapper(async (req, res, next) => { 
+  return res.status(200).cookie("access_token"," ", {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  }).json({
+    success: true,
+    message: "Logout Successfull",
+  });
+})
+
+
 export const getUser = asyncErrorWrapper(async (req, res, next) => { 
   res.json({
     success: true,
