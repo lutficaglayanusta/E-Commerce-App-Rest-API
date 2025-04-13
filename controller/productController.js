@@ -30,7 +30,8 @@ export const deleteProduct = async (req, res) => {
 }
 export const updateProduct = async (req, res) => {
     const { id } = req.params;
-    const { name, description,price, stock_quantity, category_id } = req.body;
+    const { name, description, price, stock_quantity, category_id } = req.body;
+    
     const product = await pool.query(
         "UPDATE products SET name = $1, description = $2, stock_quantity = $3, category_id = $4, price = $5 WHERE product_id = $6 RETURNING *",
         [name, description, stock_quantity, category_id, price, id]
