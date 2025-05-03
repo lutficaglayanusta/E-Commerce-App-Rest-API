@@ -58,11 +58,14 @@ export const logOut = asyncErrorWrapper(async (req, res, next) => {
 
 
 export const getUser = asyncErrorWrapper(async (req, res, next) => { 
+  const {id} = req.user
+
+  const user = await pool.query("SELECT * FROM users WHERE user_id = $1",[id])
+
   res.json({
     success: true,
     data: {
-      id: req.user.id,
-      name: req.user.name,
+     user: user.rows[0]
     },
   });
 })
