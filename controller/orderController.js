@@ -1,4 +1,3 @@
-import { data } from "react-router-dom";
 import pool from "../helpers/database/connectDatabase.js";
 import asyncErrorWrapper from "express-async-handler";
 
