@@ -17,7 +17,7 @@ export const connectPostreSQL = async () => {
             email VARCHAR(255) NOT NULL,
             password VARCHAR(255) NOT NULL,
             created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-            expires_at TIMESTAMP WITH TIME ZONE
+            updated_at TIMESTAMP WITH TIME ZONE
         )
       `;
     await sql`
@@ -29,7 +29,7 @@ export const connectPostreSQL = async () => {
           accessTokenValidUntil DATE NOT NULL,
           refreshTokenValidUntil DATE NOT NULL,
           created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-          expires_at TIMESTAMP WITH TIME ZONE
+          updated_at TIMESTAMP WITH TIME ZONE
       )
     `;
 
