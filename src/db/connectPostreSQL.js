@@ -32,6 +32,14 @@ export const connectPostreSQL = async () => {
           updated_at TIMESTAMP WITH TIME ZONE
       )
     `;
+    await sql`
+      CREATE TABLE IF NOT EXISTS products(
+        id SERIAL PRIMARY KEY,
+        image VARCHAR(255),
+        title VARCHAR(255) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL
+      )
+    `;
 
     console.log("Successfully connected to PostgreSQL");
   } catch (error) {
