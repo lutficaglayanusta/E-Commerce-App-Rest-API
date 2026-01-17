@@ -30,7 +30,7 @@ export const connectPostreSQL = async () => {
           refreshTokenValidUntil DATE NOT NULL,
           created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
           updated_at TIMESTAMP WITH TIME ZONE
-      )
+      );
     `;
     await sql`
       CREATE TABLE IF NOT EXISTS products(
@@ -38,7 +38,17 @@ export const connectPostreSQL = async () => {
         image VARCHAR(255),
         title VARCHAR(255) NOT NULL,
         price DECIMAL(10, 2) NOT NULL
-      )
+      );
+    `;
+    await sql`
+      CREATE TABLE IF NOT EXISTS carts(
+        id SERIAL PRIMARY KEY,
+        image VARCHAR(255),
+        title VARCHAR(255) NOT NULL,
+        quantity INTEGER NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+      );
     `;
 
     console.log("Successfully connected to PostgreSQL");
