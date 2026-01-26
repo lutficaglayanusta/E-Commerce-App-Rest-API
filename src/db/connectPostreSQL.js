@@ -37,7 +37,8 @@ export const connectPostreSQL = async () => {
         id SERIAL PRIMARY KEY,
         image VARCHAR(255),
         title VARCHAR(255) NOT NULL,
-        price DECIMAL(10, 2) NOT NULL
+        price DECIMAL(10, 2) NOT NULL,
+        category_id INTEGER REFERENCES category(id) ON DELETE CASCADE
       );
     `;
     await sql`
@@ -48,6 +49,13 @@ export const connectPostreSQL = async () => {
         quantity INTEGER NOT NULL,
         price DECIMAL(10, 2) NOT NULL,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+      );
+    `;
+    await sql`
+      CREATE TABLE IF NOT EXISTS category(
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(100) NOT NULL,
+        image VARCHAR(255)
       );
     `;
 
